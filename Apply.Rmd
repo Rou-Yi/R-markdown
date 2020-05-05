@@ -1,0 +1,105 @@
+---
+title: "Apply"
+output: html_document
+---
+### apply家族 用來代替 for迴圈 !  
+- 參考 : http://blog.fens.me/r-apply/  
+  
+### `apply(X, MARGIN, FUN, ...)`  
+- X -- an array or a matrix. 
+- MARGIN -- 按行或列計算，可選: 1(按列)、2(按行)
+- FUN -- 自定義的調用函數
+- 加上 `na.rm = TRUE` 可移除 NA
+  
+### apply 範例:對矩陣的每一列或行加總  
+```{r}
+x <- matrix(1:12,ncol=3) ; x
+```
+- 列加總 == rowSums(X)
+```{r}
+apply(x, 1, sum)
+```
+- 行加總 == colSums(X)
+```{r}
+apply(x, 2, sum)  
+```
+
+##### 將rowSums(X)寫成函數 - 1
+```{r}
+row.col.sum <- function(X, margin = 1){
+  size <- dim(X)
+  if (margin == 1){
+    res <- c()
+    for(j in 1:size[1]){
+      res <- c(res, sum(X[j,]))
+    }
+    
+  }else if (margin == 2){
+    res <- c()
+    for(j in 1:size[2]){
+      res <- c(res, sum(X[,j]))
+    }
+    
+  }else{
+    stop("margin should be either 1 or 2.") ##出現錯誤時，顯示錯誤提示
+  }
+  return(res)
+}
+row.col.sum(x)
+```
+##### 將rowSums(X)寫成函數 - 2
+```{r}
+row.col.sum.ver2 <- function(X, margin = 1){
+  size <- dim(X)
+  if(margin == 1){
+    res <- rep(NA, size[1])
+    for(j in 1:size[1]){
+      res[j] <- sum(X[j,])
+    }
+  }else if(margin == 2){
+    res <- rep(NA, size[2])
+    for(j in 1:size[2]){
+      res[j] <- sum(X[, j])
+    }
+  }else{
+    stop("margin should be either 1 or 2.")
+  }
+  return(res)
+}
+row.col.sum(x)
+```
+
+
+### `lapply(X, FUN, ...)`
+- X --  vector / data frame / list
+- FUN -- 自定義的調用函數
+- lapply EXAMPLE
+```{r}
+C <- list(a = 1:10, beta = exp(-3:3))
+C
+lapply(C, mean)
+```
+
+
+### `sapply(X, FUN, ..., simplify=TRUE, USE.NAMES = TRUE)`
+- X: vector / data frame / list
+- simplify: 是否數組化，當值array時，輸出結果按數組進行分組
+- USE.NAMES: 如果X為字符串，TRUE設置字符串為數據名，FALSE則不設置
+```{r}
+C <- list(a = 1:10, beta = exp(-3:3))
+sapply(C, summary)
+```
+
+- `simplify = FALSE` 分組顯示用== lapply(C, summary)
+```{r}
+sapply(C, summary, simplify = FALSE)
+```
+
+### `tapply(X, INDEX, FUN = NULL, ..., simplify = TRUE)`
+- X: vector
+- INDEX: 用於分組的索引
+- simplify : 是否數組化，當值array時，輸出結果按數組進行分組
+
+
+
+
