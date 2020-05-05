@@ -58,6 +58,8 @@ order( c(5, 7, 6, 1, 35, 16) )
 ### 數學
 `na.rm = TRUE`  加進條件, 可使指令自動忽略 NA   
 `na.omit(x)` 回傳忽略 NA 的 x  
+`factorial(x)` 1到x的乘積
+`prod(a:b)` a到b的乘積
 `abs()` 絕對值  
 `sqrt()` 開根號  
 `ceiling()` 無條件進位  
