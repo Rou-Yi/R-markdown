@@ -9,7 +9,7 @@ output: html_document
 - X -- an array or a matrix. 
 - MARGIN -- 按行或列計算，可選: 1(按列)、2(按行)
 - FUN -- 自定義的調用函數
-- 加上 `na.rm = TRUE` 可移除 NA
+- 加上 `na.rm = TRUE` 可移除 NA 
   
 ### apply 範例:對矩陣的每一列或行加總  
 ```{r}
