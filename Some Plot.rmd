@@ -1,0 +1,104 @@
+---
+title: "Some Plot"
+author: "Rou-Yi"
+date: "2020/5/6"
+output: html_document
+---
+
+- **Line plot**.
+```{r, fig.width = 7, fig.height = 4, fig.align="center" }
+x <- seq(-1.5, 1.5, 0.01) ; y <- seq(-1.5, 1.5, 0.01)
+combi <- cbind(x, y)
+plot(combi, pch=16, col='black', xlab='x', ylab='y')
+```  
+  
+- Draw $\sqrt{1-x^2}$ and $-\sqrt{1-x^2}$.  
+```{r, fig.width = 7, fig.height = 4}
+curve(sqrt( 1-x^2 ), col="black", xlim=c(-1,1), ylim=c(-1,1), xlab='x', ylab='y')
+curve((-sqrt( 1-x^2 )), col="red", add=TRUE)
+legend("topright", c(expression(sqrt(1-x^2)), expression(-sqrt(1-x^2))), col=c("black","red"), lty=c(1, 1))
+```  
+  
+- Use the dataset iris to draw a **scatter plot**.  
+```{r, fig.width = 4, fig.height = 4, fig.align="center"}
+data.le <- iris
+setosa <- grep('setosa', data.le$Species, ignore.case = TRUE)
+setosa_data <-  data.le[setosa,]
+versicolor <- grep('versicolor', data.le$Species, ignore.case = TRUE)
+versicolor_data <-  data.le[versicolor,]
+virginica <- grep('virginica', data.le$Species, ignore.case = TRUE)
+virginica_data <-  data.le[virginica,]
+
+plot(setosa_data$Sepal.Length, setosa_data$Petal.Length, pch=1, col='black', xlim=c(4,10), ylim=c(0,10), xlab='Sepal.Length', ylab='Petal.Length')
+points(versicolor_data$Sepal.Length, versicolor_data$Petal.Length, pch=1, col='red', xlab='Sepal.Length', ylab='Petal.Length')
+points(virginica_data$Sepal.Length, virginica_data$Petal.Length, pch=1, col='green', xlab='Sepal.Length', ylab='Petal.Length')
+legend("topright", c("setosa", "versicolor", "virginica"), col=c("black","red","green"), pch=c(1,1,1))
+```  
+
+- Plot the degradation path for all of the units, which means the x-axis is the cycles and the
+y-axis is the relLength.
+```{r, fig.width = 7, fig.height = 4, fig.align="center" }
+library("nlme")
+data.4 <- Fatigue
+first <- data.4[ which(data.4$Path==1), ]
+plot(first$cycles,first$relLength, type = "b", xlab='Cycles', ylab='RelLength')
+
+for (n in 2:length(unique(data.4$Path))) {
+  dataforPath <- data.4[ which(data.4$Path==n), ]
+  points(dataforPath$cycles, dataforPath$relLength, type = "b")
+}
+```
+
+### Ramdom Variables  
+- Binomial distribution  $Bin(n=10, p)$
+```{r, fig.width = 7, fig.height = 4}
+plot(c(0:10), dbinom(c(0:10), 10, 0.7), pch=16, col='black', xlim=c(0,10), ylim=c(0,0.4), xlab='x', ylab='pmf')
+segments(0:10, 0, 0:10, dbinom(c(0:10), 10, 0.7), col='black', lty=1)
+points(c(0:10), dbinom(c(0:10), 10, 0.5), pch=8, col='blue')
+segments(0:10, 0, 0:10, dbinom(c(0:10), 10, 0.5), col='blue', lty=4)
+points(c(0:10), dbinom(c(0:10), 10, 0.2), pch=17, col='red')
+segments(0:10, 0, 0:10, dbinom(c(0:10), 10, 0.2), col='red', lty=2)
+
+legend("topright", c("p=0.7", "p=0.5", "p=0.2"), col=c("black","blue","red"), lty=c(1, 4, 2), pch=c(16, 8, 17))
+title(expression('Binomial(n, p) with n = 10'))
+```  
+  
+- Gamma distribution  $\Gamma(\alpha, \lambda=3)$
+```{r, fig.width = 7, fig.height = 4}
+curve(dgamma(x, 1,3), 0, 5, col="black", xlim=c(0,5), ylim=c(0,3), xlab='x', ylab='pdf')
+curve(dgamma(x, 2,3), 0, 5, col="red" , lty=2, add=TRUE)
+curve(dgamma(x, 3,3), 0, 5, col="blue", lty=4, add=TRUE)
+curve(dgamma(x, 5,3), 0, 5, col="grey", lty=5, add=TRUE)
+
+legend("topright", c(expression(alpha==1), expression(alpha==2),  expression(alpha==3), expression(alpha==5)), col=c("black","red","blue","grey"), lty=c(1, 2, 4, 5))
+title(expression(paste("Gamma(", alpha , ", ", lambda, ") with ", lambda, " = 3"))) 
+
+```  
+  
+- Normal distribution  $N(\mu, \sigma^2=1)$
+```{r, fig.width = 7, fig.height = 4}
+curve(dnorm(x, 5, 1), col="black", xlim=c(0,20), ylim=c(0,0.4), xlab='x', ylab='pdf')
+curve(dnorm(x, 10, 1), 0, 20, col="red" , lty=2, add=TRUE)
+curve(dnorm(x, 12, 1), 0, 20, col="blue", lty=4, add=TRUE)
+curve(dnorm(x, 14, 1), 0, 20, col="grey", lty=5, add=TRUE)
+
+legend("topright", c(expression(mu==5), expression(mu==10), expression(mu==12), expression(mu==14)), col=c("black","red","blue","grey"), lty=c(1, 2, 4, 5))
+title(expression(paste("N(", mu, ", ", sigma^2, ") with ", sigma^2, " = 1"))) 
+```  
+  
+- Normal distribution  $N(\mu=0, \sigma^2)$
+```{r, fig.width = 6, fig.height = 4}
+curve(dnorm(x, 0, 0.5), col="black", xlim=c(-9,9), ylim=c(0,0.8), xlab='x', ylab='pdf')
+curve(dnorm(x, 0, 1), -9, 9, col="red" , lty=2, add=TRUE)
+curve(dnorm(x, 0, 2), -9, 9, col="blue", lty=4, add=TRUE)
+curve(dnorm(x, 0, 3), -9, 9, col="grey", lty=5, add=TRUE)
+
+legend("topright", c(expression(sigma==0.5), expression(sigma==1), expression(sigma==2), expression(sigma==3)), col=c("black","red","blue","grey"), lty=c(1, 2, 4, 5))
+title(expression(paste("N(", mu, ", ", sigma^2, ") with ", mu, " = 0")))
+``` 
+
+
+
+
+
+
