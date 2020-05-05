@@ -1,0 +1,116 @@
+---
+title: "Matrix"
+output: html_document
+---
+### 由 vector 組合成矩陣，也可用來合併矩陣!!
+- `rbind()` 按 row 排
+- `cbind()` 按 column 排
+```{r }
+a <- c(1,2,3)
+b <- c(46,'dsf', 'wqf')
+
+rbind(a, b)
+cbind(a, b)
+```
+
+### 建立矩陣  `matrix(x , nrow, ncol, byrow = FALSE)`
+- byrow = FALSE 預設**先排直行**
+```{r }
+colmat <- matrix(1:20, nrow=4, ncol=5) 
+rowmat <- matrix(1:20, nrow=5, ncol=4, byrow = TRUE)
+
+colmat
+rowmat
+```
+
+### 取得 dimension `dim(matrix)`，回傳 '列, 行'
+```{r }
+dim(colmat) 
+dim(rowmat)
+```
+
+### 設定列或欄的名字
+```{r }
+colnames(colmat) <- c('A', 'B', 'C', 'D', 'E')
+rownames(colmat) <- c('h', 'la', 'p', 'yeah')
+colmat
+```
+
+### 取得列或欄的名字
+- 列標題
+```{r }
+colnames(colmat)
+```
+
+- 欄標題
+```{r }
+rownames(colmat)
+```
+
+- 同時取得
+```{r }
+dimnames(colmat)
+```
+
+### 索引, 取值 -> Matrix[列, 行]
+- 單值
+```{r }
+colmat[2,4]
+```
+
+- 第2列 + "A", "C"欄位
+```{r }
+colmat[2,c("A","C")] 
+```
+
+- 第4列
+```{r }
+colmat[4,] 
+```
+
+### 轉置矩陣 `t(Matrix)`
+```{r }
+t(colmat)
+```
+
+### 矩陣可直接做加減乘除  內積(普通乘法) %*%, 外積 %o%
+```{r }
+rowmat %*% colmat
+```
+
+### 取得 直行或橫列的 sum、mean
+```{r}
+colSums(rowmat)
+rowSums(rowmat)
+colMeans(rowmat)
+rowMeans(rowmat)
+```
+
+### 取得對角線上的值 `diag(Matrix)`
+```{r}
+rowmat
+diag(rowmat)
+```
+
+### 行列式`det(Matrix)` **!限方陣使用!** 
+```{r}
+square <- matrix(1:4, nrow=2, ncol=2)
+square
+det(square)
+```
+
+### 反矩陣inverse `solve(Matrix)`
+```{r}
+solve(square)
+```
+
+### eigen value & eigen vector 特徵值、特徵向量
+```{r}
+eigen(square)
+```
+- 分開獲取
+```{r}
+eig.D <- eigen(square)
+eig.D$values
+eig.D$vectors
+```

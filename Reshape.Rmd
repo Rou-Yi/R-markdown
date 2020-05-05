@@ -1,0 +1,61 @@
+---
+title: "Reshape"
+output: html_document
+---
+### 引入資料 reshape2
+```{r }
+library(reshape2)
+game <- c("G1", "G2", "G3", "G4", "G5")
+site <- c("M", "O", "L", "O", "L")
+Lin <- c(15, 6, 26, 22, 18)
+Jordan <- c(18, 32, 21, 25, 12)
+Peter <- c(10, 6, 22, 9, 12)
+ballgames <- data.frame(game, site, Lin, Jordan, Peter)
+ballgames
+```
+
+### 組合變量 `melt(data, ..., id.vars, na.rm = FALSE, ~~)`  
+- id.vars -- 要保留的變量
+- measure.vars -- 選入的變量名稱作為新的一個變量的分類值，默認選擇id.vars外的所有變量
+- variable.name = "variable.name" -- 選入變量構成的新列的名稱
+- value.name = "value" -- 選入變量的數值構成的新列的名稱
+
+- EXAMPL: `id.vars = c("game", "site")` 指將這兩欄位提出，生出包含更多變數的新data.frame  
+```{r }
+melt(ballgames, id.vars = c("game", "site"))
+```
+
+### 拆解變量組合 `dcast(dataset, formula, fun)` 
+- 範例一
+```{r }
+after.reshape <- melt(ballgames, id.vars=c("game", "site"),variable.name='name')
+dcast(after.reshape, game + site ~ name, sum)
+```
+- 範例二
+```{r }
+dcast(after.reshape, name ~ site, mean)
+```
+- 範例三
+```{r }
+dcast(after.reshape, name + site ~ game, sum)
+```
+
+### 合併資料`merge()`
+```{r }
+Lin.game <- ballgames[ballgames[,"Lin"] > 20, c("game", "site", "Lin")]
+Lin.game
+
+Jordan.game <- ballgames[ballgames[,"Jordan"] > 20, c("game", "site", "Jordan")]
+Jordan.game
+```
+- 產生交集
+- default: `all = FALSE`
+```{r }
+merge(Lin.game, Jordan.game)
+```
+- 產生聯集
+```{r }
+merge(Lin.game, Jordan.game, all = TRUE)
+```
+
+

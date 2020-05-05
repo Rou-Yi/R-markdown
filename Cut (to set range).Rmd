@@ -1,0 +1,38 @@
+---
+title: "Cut"
+output: html_document
+---
+#### 使用 Cut 將數據做分類!  
+ 
+#### 原始資料X 與 顯示其歸屬的切點(範圍)  
+```{r }
+X <- 1:20
+X
+cut(X, c(0, 5, 10, 20)) 
+```
+
+#### 可以加上標籤、將標籤轉成數字順序  
+```{r }
+cut(X, c(0, 5, 10, 20), c("S", "M", "L"))
+as.numeric(cut(X, c(0, 5, 10, 20), c("S", "M", "L")))
+```
+
+#### `findInterval` 據說是 Cut 的好朋友 
+- findInterval 在切點上不用給予 頭(0)跟尾(20)
+```{r }
+findInterval(1:20, c(5, 10))
+```
+
+#### 統計數據
+- 要顯示各範圍有幾個可用 table(x)
+```{r}
+y <- cut(1:20, c(0, 5, 10, 20), c("S", "M", "L"))
+table(y)
+```
+
+- 使用 hist 並且把(顯示)畫圖關掉`plot=FALSE`, 效率更高
+- $counts 出現答案會跟 table 相似
+```{r }
+hist(1:20, c(0, 5, 10, 20), plot=FALSE)$counts
+```
+

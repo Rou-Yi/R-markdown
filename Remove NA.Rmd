@@ -1,0 +1,29 @@
+---
+title: "Remove NA"
+output: html_document
+---
+
+```{r airquality}
+airquality
+```
+
+### complete.cases() 找沒有 NA 的地方
+```{r airquality}
+no.na <- complete.cases(airquality)
+head(airquality[no.na,]) ## == na.omit(airquality)
+```
+
+### 指定過濾範圍
+```{r airquality}
+airquality[complete.cases(airquality[1:10,]),]
+```
+
+### 
+```{r airquality}
+
+```
+
+
+
+
+

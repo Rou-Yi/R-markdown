@@ -1,0 +1,135 @@
+---
+title: "R程式整理 - Basic Function"
+author: "Rou-Yi"
+date: "2020/5/5"
+output: html_document
+---
+
+### 產生向量
+##### `seq()` 
+- seq( 起始, 結束(含), by = 間隔, length = 間隔數-1 )
+- by 與 length 不共存
+- Example
+```{r}
+seq(1, 10, by = 2)
+seq(1, 10, length = 5)
+```
+
+##### `rep()` 
+- rep( **起始:結束(含)** , each = 每字重複次數, time=整個字串重複次數, len = 總顯示長度(循環式) )
+- 可使用向量 c() 來指定每字的重複次數 (ex.3)
+- Example
+```{r}
+rep(1:3, each = 2, time = 3)
+rep(1:4, each = 2, len = 10)
+rep(1:4, c(1,4,2,3)) 
+```
+
+### 集合 & 向量 的比較與計算
+`table( )` 計算個別次數  
+`union( )` 聯集  
+`intersect( )` 交集  
+`unique( )` 刪去重複的  
+`duplicated()` 回傳TRUE, if 重複的(前面出現過)  
+```{r}
+duplicated( c(1, 2, 3, 3, 2, 4, 1) )
+```
+`setdiff(A, B)` 集合相減 A - B  
+`setequal(A, B)` 回傳TRUE, if unique(A) 的內容等於 unique(B), 不管順序是否相同  
+`identical(A, B)` 承上, **排列需相同**  
+```{r}
+A = c(1, 2, 3, 3, 2, 4, 6) ; B = c(3, 2, 4, 2, 3, 1, 6)
+cat( setequal(A, B), identical(A, B) , '\n')
+```
+
+### 排序
+`sort(x, decreasing = FALSE)`  回傳讓資料排**升序**  
+`order(x, na.last = TRUE, decreasing = FALSE)` 回傳排升序後, 所在的**位置**  
+  
+- default : decreasing = FALSE (升序) ; na.last = TRUE (NA置後) 
+- 若 x 為 dataframe, order 的 x 可放多個想排的順序
+- sort(A) = A[ order(A) ]
+- Example
+```{r}
+sort( c(5, 7, 6, 1, 35, 16) )
+order( c(5, 7, 6, 1, 35, 16) )
+```
+
+### 數學
+`na.rm = TRUE`  加進條件, 可使指令自動忽略 NA   
+`na.omit(x)` 回傳忽略 NA 的 x  
+`abs()` 絕對值  
+`sqrt()` 開根號  
+`ceiling()` 無條件進位  
+`floor()` 無條件捨去  
+`round(x , digits = 0)` 四捨五入取到 小數**後**第 digits 位  
+`signif(x , digits = 6)` 四捨五入到 從**前面**數來第 digits 位  
+```{r}
+cat( round(0.98913 , digits=2), signif(123456789, digits = 6) ,'\n')
+```
+
+### 字串
+`strsplit(x, split)` 以 split 分割字串 TEXT  
+`toupper(x)`  將整個字串 x 改**大寫**  
+`tolower(x)`  將整個字串 x 改**小寫**  
+`substr(x, start, stop)` 截取字串, 從位置 start 到 stop  
+`strtrim(x , width)` 取字串的**前** width 位  
+`trimws(x)` 刪除字串**前後**的空格  
+  
+##### 字串 & 取代  
+`sub(x, replaced, TEXT)`  替換TEXT中**第一個**出現的 x 為 replaced  
+`gsub(x, replaced, TEXT)` 替換TEXT中**所有**出現的 x 為 replaced  
+  
+### 搜尋  
+##### `grep(pattern, x, ignore.case = FALSE)`   
+- 回傳在**向量x**中有包含 pattern 的**位置**  
+- ignore.case = TRUE 可忽略大小寫因素  
+```{r}
+grep(3, c(1, 52, 4, 3, 63), ignore.case = FALSE)
+```
+
+##### `grepl(pattern, x, ignore.case = FALSE, perl = FALSE,fixed = FALSE, useBytes = FALSE)`  
+- 回傳TRUE, if 在**向量x**中有找到 pattern  
+```{r}
+grepl(3, c(1, 52, 4, 3, 63), ignore.case = FALSE)
+```
+
+### 描述統計 
+`mean(x)`  平均數  
+`sd(x)`  標準差  
+`median(x)`  中位數  
+`max(x)`  最大值  
+`min(x)`  最小值  
+`sum(x)`  總和  
+`range(x)`  全距, 回傳 max(x) min(x)  
+
+### 轉換 type 屬性
+`as.character(x)`  轉為字串  
+`as.numeric(x)`  轉為數值  
+`as.integer(x)`  轉為整數  
+  
+### 判斷式 
+- 回傳 TURE 或 FALSE
+`is.null()` 判斷變數是否為 NULL  
+`is.na()` 判斷變數是否為 NA  
+`is.character()` 判斷變數是否為 字串  
+`is.integer()` 判斷變數是否為 整數  
+`is.numeric()` 判斷變數是否為 數值  
+- `A & B` and  
+- `A | B` or  
+
+### 隨機取數
+`sample(x, size, replace = FALSE, prob = NULL)`
+- x 可為向量 或 一個數字( 範圍視為 1:x ) 
+- replace = FALSE 為 取後不放回
+- prob 可指定變數產生機率 (權重)
+```{r}
+sample(5:20, 3)
+```
+  
+`runif(n, min = 0, max = 1)` 於 uniform distribution 產生 n 個隨機變數  
+`rnorm(n, mean = 0, sd = 1)` 於 normal distribution 產生 n 個隨機變數  
+
+
+
+

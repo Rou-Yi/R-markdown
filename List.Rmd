@@ -1,0 +1,50 @@
+---
+title: "List 清單"
+output: html_document
+---
+### 建立 list
+```{r}
+listSample<-list( Students = c("Tom","Kobe","Emma","Amy"),
+                  Year = 2017,
+                  Score = c(60,50,80,40))
+listSample
+```
+  
+### 取得第一個變量（列表型態）
+```{r}
+listSample[3]
+```
+  
+### 取得變量的 **值**
+- 可用位置**[[1]]** 或 用 **$+名字** 取得 Students 變量
+```{r}
+listSample$Students
+listSample[[1]]
+```
+  
+### 直接改寫 變量資料內容
+```{r}
+listSample[[1]] <- c("小明","大雄","胖虎")
+listSample[[1]]
+
+listSample$Score <- c(47, 56, 0) 
+listSample$Score
+```
+  
+### 刪除變量
+- 刪除 Score，將其設定為`NULL`
+```{r}
+listSample$Score <- NULL 
+listSample
+```
+  
+### 新增變量
+- 新增 Gender，並設定向量值
+```{r}
+listSample$Gender <- c("M", "F", "M", "F", "M")
+listSample
+```
+
+
+
+
